@@ -20,5 +20,5 @@
   3. Strat document system
      >$ ./doc/bin/www
   4. Browsing document
-    input http://localhost:3000
+    input http://localhost:3001
   5. Import wallet to metamask

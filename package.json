@@ -29,6 +29,10 @@
     "nodemon": "^1.8.1",
     "truffle": "^4.1.14"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensecurities-ose/ose-core.git"
+  },
   "dependencies": {
     "bignumber.js": "latest",
     "debug": "^2.6.3",
