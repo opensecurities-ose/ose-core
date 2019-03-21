@@ -1,0 +1,70 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Save event</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">eventSave(_data)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Save event
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+  function runCode() {
+    var _data = {
+      "address": "0xeecf6b02b0674136aa24df534ca2be5ad6af5f7e",
+      "topics": [
+        "0x470b2da8ce108716374df2bca80ab2136e62432634b20d62a600692daec87e5a"
+      ],
+      "data": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000866e43291293892bd0980adc4ec5166f33623d86000000000000000000000000000000000000000000000000000000005c177a42000000000000000000000000000000000000000000000000000000005c177a42000000000000000000000000000000000000000000000000000000005c9b50420000000000000000000000000000000000000000000000000000000000000001000000000000000000000000866e43291293892bd0980adc4ec5166f33623d86",
+      "blockNumber": 4645497,
+      "timeStamp": 1545042495,
+      "gasPrice": 10000000000,
+      "gasUsed": 46997,
+      "logIndex": 2,
+      "transactionHash": "0x8b4352037c528b4655fb975feb3d3d3d2aa217a4730ed33fe6d83c902cbce34c",
+      "transactionIndex": 3
+    };
+
+    eventSave(_data);
+  }
+
+  function eventSave(_data) {
+    var _eshelper = new EventHelper();
+    var _logs = decodeEventsForContract(abiGP, [_data]);
+    console.log('decodeEventsForContract:',_logs);
+    _eshelper.saveEvent(_logs[0]);
+    appendResult(_logs[0]);
+  }
+
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += eventSave.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+</script>
+<%- include footer %>

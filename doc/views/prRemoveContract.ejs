@@ -1,0 +1,64 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">PR Contract</li>
+      <li class="breadcrumb-item active">Stop contract</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">prRemoveContract(contractAddress)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Stop contract
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    prRemoveContract(config.contract.ST).then();
+  }
+
+  async function prRemoveContract(contractAddress) {
+    var result = '';
+    try {
+      var account = web3.eth.coinbase;
+      var nonce = await getWeb3Nonce(account);
+      result += "Account:" + account +"\n";
+      result += "nonce:" + nonce + "\n";
+      var param = {address: config.contract.PolicyRegistry, abi: abiPolicyRegistry, sender: account, nonce: nonce};
+      var contract = new PolicyRegistry(web3, param);
+      var res  = await contract.removeContract(contractAddress);
+      var result = "result:" + res + "\n";
+    } catch (e) {
+      var result = "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += prRemoveContract.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

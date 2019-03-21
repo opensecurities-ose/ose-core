@@ -1,0 +1,86 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">ST Contract </li>
+      <li class="breadcrumb-item active">check ST permission</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">stCheckRole(securityToken,operator, action)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              ST合约,给用户验证权限
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <input class="form-control" id="operator" type="text" name="operator" placeholder="Input address">
+              </div>
+              <div class="col-sm-6">
+                <select class="form-control" id="role" name="role">
+                  <option value="">Select permission</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    var securityToken = config.contract.ST;
+    var operator=$('#operator').val();
+    var action = $('#role').val();
+    if(!action) {
+      alert('PLease select permission first');
+      return;
+    }
+    stCheckRole(securityToken, operator, action).then();
+  }
+
+  async function stCheckRole(securityToken, operator, action) {
+    var result = "Account:" + operator +"\n";
+    try {
+      var param = {address: securityToken, abi: abiSecurityToken};
+      var contract = new SecurityToken(web3, param);
+      var res  = await contract.checkRole(operator, action);
+      result += "tx:" + res + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    _initRole();
+    var code = runCode.toString() + "\n\n";
+    code += stCheckRole.toString() + "\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+  function _initRole() {
+    $('#operator').val(web3.eth.coinbase);
+    for(var i=0;i<ST_ROLES.length;i++) {
+      $('#role').append("<option value='"+ST_ROLES[i]+"'>"+ST_ROLES[i]+"</option>");
+    }
+
+  }
+
+</script>
+<%- include footer %>

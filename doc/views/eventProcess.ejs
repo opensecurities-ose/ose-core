@@ -1,0 +1,64 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Handle event</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">eventProcess(web3, uid)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Handle event
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+  var _eshelper = null;
+  function callback(_data) {
+    console.log('callback:', _data);
+    appendResult(_data);
+    // run business code
+    // if ok
+    _eshelper.processOK(_data);
+  }
+
+  function runCode() {
+    eventProcess(web3, 1);
+  }
+
+  function eventProcess(web3, uid) {
+    _eshelper = new EventHelper(web3, uid);
+    _eshelper.processCallback = callback;
+    _eshelper.etime = 500;
+    _eshelper.process();
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = "var _eshelper = null; \n"
+    code += callback.toString()+"\n\n";
+    code += runCode.toString()+"\n\n";
+    code += eventProcess.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+</script>
+<%- include footer %>

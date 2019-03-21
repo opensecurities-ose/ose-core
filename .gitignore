@@ -1,0 +1,8 @@
+/node_modules
+/.idea
+/package-lock.json
+/runtime
+/doc/data
+/javaDemo/logs
+/build
+package-lock.json

@@ -1,0 +1,89 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">STO Contract</li>
+      <li class="breadcrumb-item active">Deploy STO contract</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">createSTO(securityToken, tranche, paused, addresses, values)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Deploy STO contract(approve manageRole permission for STOFactory first)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    var _securityToken = config.contract.ST;
+    var _tranche = '';
+    var _paused = false;
+    var now = Math.floor(new Date().getTime() / 1000);
+    var _startTime = now;
+    var _endTime = now + 3600 * 24 * 30;
+    var _maxAmount = web3.toWei(1000000, 'ether');
+    var _rate = 10;
+    var _minInvestorAmount = web3.toWei(1, 'ether');
+    var _maxInvestorAmount = web3.toWei(1000000, 'ether');
+    var _maxInvestors = 200;
+    var _lockMonths = 12;
+    var _fundRaiseToken = '0x0000000000000000000000000000000000000000';
+    var _fundsReceiver = '0x866e43291293892bd0980adc4ec5166f33623d86';
+
+    var addresses = [_fundRaiseToken, _fundsReceiver];
+    var values = [_startTime, _endTime, _maxAmount, _rate, _minInvestorAmount, _maxInvestorAmount, _maxInvestors, _lockMonths]
+
+    console.log(_securityToken, _tranche, _paused, addresses, values);
+    createSTO(_securityToken, _tranche, _paused, addresses, values).then();
+  }
+
+  async function createSTO(_securityToken, _tranche, _paused, addresses, values) {
+    var res = getWeb3Account();
+    var account = res.data;
+    var result = "Account:" + account + "\n";
+    if (res.code != 0) {
+      result += res.msg + '\n';
+      setResult(result);
+      return;
+    }
+
+    try {
+      var nonce = await getWeb3Nonce(account);
+      result += "nonce:" + nonce + "\n";
+      var param = {address: config.contract.STOFactory, abi: abiSTOFactory, sender: account, nonce: nonce};
+      var sto = new STOFactory(web3, param);
+
+      res = await sto.create(_securityToken, _tranche, _paused, addresses, values);
+      result += "tx:" + res + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  $(document).ready(function () {
+    var code = runCode.toString() + "\n\n";
+    code += createSTO.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

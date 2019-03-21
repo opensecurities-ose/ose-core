@@ -1,0 +1,60 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Summary</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">About</div>
+          <div class="card-body">
+            <div class="bd-example">
+              STO API doc
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">Test contract address</div>
+          <div class="card-body">
+            <div class="bd-example" id="contracts">
+              Loading...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script type="text/javascript">
+// var Web3 = require('web3');
+$(document).ready(function() {
+  var contracts = '';
+  getEthNetWork().then(res=> {
+    if(res==3) {
+      config.contract = contractRopsten;
+      console.log('Ropsten:',config.contract);
+    }
+    for(var k in config.contract) {
+      contracts+='<li>'+k+' : '+config.contract[k]+'</li>';
+    }
+    $('#contracts').html(contracts);
+  }).catch(err=> {
+    console.err('getEthNetWork:', err);
+  })
+
+});
+
+</script>
+
+<%- include footer %>

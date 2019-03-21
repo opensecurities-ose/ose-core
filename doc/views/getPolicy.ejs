@@ -1,0 +1,64 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">ST Contract</li>
+      <li class="breadcrumb-item active">Get policy contract</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">getPolicy(securityToken)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Get policy contract address
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    getPolicy(config.contract.ST).then();
+  }
+
+  async function getPolicy(securityToken) {
+    var result = '';
+    try {
+      var param = {address: securityToken, abi: abiSecurityToken};
+      var st = new SecurityToken(web3, param);
+      var res  = await st.getPolicy('');
+      var formater = Web3Formater(web3, abiSecurityToken);
+      res = formater.decodeMethodOutput('getPolicy', res);
+      result += "SecurityToken:" + securityToken + "\n";
+      result += "policy address:" + res + "\n";
+
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += getPolicy.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

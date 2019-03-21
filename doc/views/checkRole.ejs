@@ -1,0 +1,86 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">RAC Contract</li>
+      <li class="breadcrumb-item active">Check permission</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">checkRole(operator, action)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              验证权限
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <input class="form-control" id="operator" type="text" name="operator" placeholder="Input address">
+              </div>
+              <div class="col-sm-6">
+                <select class="form-control" id="role" name="role">
+                  <option value="">Select permission</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    var operator=$('#operator').val();
+    var action = $('#role').val();
+    console.log(operator, action);
+    if(!action) {
+      alert('PLease select permission first');
+      return;
+    }
+    checkRole(operator, action).then();
+  }
+
+  async function checkRole(operator, action) {
+    var result = "Account:" + operator +"\n";
+    try {
+      var param = {address: config.contract.RAC, abi: abiRAC};
+      var rac = new RAC(web3, param);
+      var res  = await rac.checkRole(operator, action);
+      result += "res:" + res + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    _initRole();
+    var code = runCode.toString() + "\n\n";
+    code += checkRole.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+  function _initRole() {
+    $('#operator').val(web3.eth.coinbase);
+    for(var i=0;i<RAC_ROLES.length;i++) {
+      $('#role').append("<option value='"+RAC_ROLES[i]+"'>"+RAC_ROLES[i]+"</option>");
+    }
+
+  }
+
+</script>
+<%- include footer %>

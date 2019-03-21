@@ -1,0 +1,53 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Run code</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">runCode()</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Run code
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    test();
+  }
+
+  function test() {
+    var str = JSON.stringify(config.contract);
+    appendResult(str);
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += test.toString()+"\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+
+</script>
+<%- include footer %>

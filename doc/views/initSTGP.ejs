@@ -1,0 +1,93 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">ST Contract</li>
+      <li class="breadcrumb-item active">Init ST&GP contract</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">initSTGP()</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Init ST&GP contract
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    initSTGP().then();
+  }
+
+  async function initSTGP() {
+    var param = null;
+    var contract = null;
+    var res = getWeb3Account();
+    var account = res.data;
+    var result = "Account:" + account +"\n";
+    if(res.code!=0) {
+      result += res.msg+ '\n';
+      setResult(result);
+      return;
+    }
+
+    try {
+      var nonce = await getWeb3Nonce(account);
+      result += "nonce：" + nonce + "\n";
+      param = {address: config.contract.PolicyRegistry, abi: abiPolicyRegistry, sender: account, nonce: nonce};
+      contract = new PolicyRegistry(web3, param);
+      res  = await contract.addContract(config.contract.ST);
+      result += "addContract ST tx:" + res + "\n";
+
+      nonce++;
+      result += "nonce：" + nonce + "\n";
+      param = {address: config.contract.PolicyRegistry, abi: abiPolicyRegistry, sender: account, nonce: nonce};
+      contract = new PolicyRegistry(web3, param);
+      res  = await contract.addContract(config.contract.GP);
+      result += "addContract GP tx:" + res + "\n";
+
+      nonce++;
+      result += "nonce：" + nonce + "\n";
+      param = {address: config.contract.ST, abi: abiSecurityToken, sender: account, nonce: nonce};
+      contract = new SecurityToken(web3, param);
+      res  = await contract.registryPolicy('',config.contract.GP);
+      result += "registryPolicy tx:" + res + "\n";
+
+      nonce++;
+      result += "nonce：" + nonce + "\n";
+      param = {address: config.contract.ST, abi: abiSecurityToken, sender: account, nonce: nonce};
+      contract = new SecurityToken(web3, param);
+      res  = await contract.addRole(config.contract.STO,'mint');
+      result += "addRole tx:" + res + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += initSTGP.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

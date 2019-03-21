@@ -1,0 +1,81 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Listen event</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">eventWatch(web3, uid, abis)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Listen event
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+  var _eshelper;
+  function runCode() {
+    var abis = {
+      abiSecurityToken: abiSecurityToken,
+      abiGP: abiGP,
+      abiSTO: abiSTO,
+      abiSTOFactory: abiSTOFactory,
+      abiSTGFactory: abiSTGFactory,
+      abiRAC: abiRAC
+    }
+
+    var uid = 1;
+
+    eventWatch(web3, uid, abis).then();
+  }
+
+  function callback(_data) {
+    console.log('callback:', _data);
+    _eshelper.saveEvent(_data);
+    insertResult(_data);
+    // run business code
+  }
+
+  async function eventWatch(web3, uid, abis) {
+    _eshelper = new EventHelper(web3, uid, abis);
+    _eshelper.fromBlock = 0; // recommend no set, this is just testing
+    // _eshelper.toBlock=_eshelper.fromBlock+1000; // recommend no set, this is just testing
+    _eshelper.configContract = config.contract;
+    _eshelper.watchCallback = callback;
+
+    // NOTE watch a contract
+    _eshelper.watch(config.contract.RAC, 'RAC');
+
+    // NOTE watch all contract in the storage
+    // _eshelper.watch();
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = "var _eshelper;\n";
+    code += runCode.toString()+"\n\n";
+    code += callback.toString()+"\n\n";
+    code += eventWatch.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+</script>
+<%- include footer %>

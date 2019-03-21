@@ -1,0 +1,62 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Account balance</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">getBalance()</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Account balance
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    getBalance();
+  }
+
+  function getBalance() {
+    var res = getWeb3Account();
+    var result = "Account:" + res.data +"\n";
+    if(res.code!=0) {
+      result += res.msg+ '\n';
+      setResult(result);
+      return;
+    }
+
+    web3.eth.getBalance(res.data, function(err, balance) {
+      result += "Balance:" + web3.fromWei(balance.valueOf()) + " ETH\n";
+      setResult(result);
+    });
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += getBalance.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+    getBalance();
+
+  });
+
+</script>
+<%- include footer %>

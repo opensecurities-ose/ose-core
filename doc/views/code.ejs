@@ -1,0 +1,91 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6" >
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                      <div class="col-sm-8">Code</div>
+                      <div class="col-sm-4"><button class="btn btn-block btn-primary" type="button" onclick="evalCode()">Run</button></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="bd-example" style="height:300px;">
+                        <textarea id="code" class="mycode"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" >
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-8">Result</div>
+                        <div class="col-sm-4"><button class="btn btn-block btn-primary" type="button" onclick="clearResult()">清除</button></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="bd-example" style="height:300px;">
+                        <textarea id="result" class="myresult"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  function setCode(_code) {
+    $('#code').val(_code);
+  }
+
+  function clearResult() {
+    $('#result').empty();
+  }
+
+  function setResult(_result) {
+    if(typeof _result == 'object') {
+      try {
+        _result = JSON.stringify(_result);
+      }catch(e) {
+        console.log('err:',e);
+      }
+    }
+    $('#result').empty();
+    $('#result').append(_result);
+  }
+
+  function appendResult(_result) {
+    if(typeof _result == 'object') {
+      try {
+        _result = JSON.stringify(_result);
+      }catch(e) {
+        console.log('err:',e);
+      }
+    }
+
+    var textarea = $('#result').append(_result+"\n\n");
+    textarea.scrollTop(textarea[0].scrollHeight - textarea.height());
+  }
+
+  function insertResult(_result) {
+    if(typeof _result == 'object') {
+      try {
+        _result = JSON.stringify(_result);
+      }catch(e) {
+        console.log('err:',e);
+      }
+    }
+
+    $('#result').prepend(_result+"\n\n");
+  }
+
+  function evalCode() {
+    setResult('loading...');
+
+    var code = $('#code').val();
+    console.log(code);
+    eval(code);
+  }
+
+</script>

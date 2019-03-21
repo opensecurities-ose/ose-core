@@ -1,0 +1,64 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Handle tx hash</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">txProcess()</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Handle tx hash
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+  var _txhelper = null;
+  function callback(_data) {
+    console.log('callback:', _data);
+    appendResult(_data);
+    // run business code
+    // if ok
+    _txhelper.processOK(_data);
+  }
+
+  function runCode() {
+    txProcess(web3, 1);
+  }
+
+  function txProcess(web3, uid) {
+    _txhelper = new TxHelper(web3, uid);
+    _txhelper.processCallback = callback;
+    _txhelper.etime = 3000;
+    _txhelper.process();
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = "var _txhelper = null; \n"
+    code += callback.toString()+"\n\n";
+    code += runCode.toString()+"\n\n";
+    code += txProcess.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+</script>
+<%- include footer %>

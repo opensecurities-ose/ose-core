@@ -1,0 +1,60 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">STO Contract</li>
+      <li class="breadcrumb-item active">Get STO config</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">getSTODetails(sto)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Get STO config
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    getSTODetails(config.contract.STO).then();
+  }
+
+  async function getSTODetails(sto) {
+    var result = '';
+    try {
+      var contract = {address: sto, abi: abiSTO};
+      var sto = new STO(web3, contract);
+      var res  = await sto.getSTODetails();
+      result += "result:\n" + res + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += getSTODetails.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

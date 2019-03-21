@@ -1,0 +1,60 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Metamask plugin</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">checkMetaMask()</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Check Metamask plugin
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    checkMetaMask();
+  }
+
+  function checkMetaMask() {
+    var res = checkWeb3Plugin();
+    var result ='';
+    if(res) {
+      result = "MetaMask:true\n";
+    } else {
+      result = "MetaMask:false\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code = checkWeb3Plugin.toString() + "\n\n";
+    code += checkMetaMask.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+    checkMetaMask();
+
+  });
+
+</script>
+<%- include footer %>

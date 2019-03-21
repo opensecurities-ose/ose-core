@@ -1,0 +1,76 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Subscribe event</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">eventSubscribe(options)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Subscribe event
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+  function runCode() {
+    var addresses = [];
+    for(var k in config.contract) {
+      addresses.push(config.contract[k]);
+    }
+    var options = {
+      fromBlock: 1,
+      address:addresses
+    }
+    console.log(options);
+    alert('Please subscribe event')
+    return;
+    eventSubscribe(options);
+  }
+
+  function eventSubscribe(options) {
+    var _eshelper = new EventHelper();
+    var  _wsServer = 'wss://ropsten.infura.io/ws/v3/4e987044d78c44319523b16c7bf0412c';
+    var _eth = new Web3Eth(_wsServer);
+    var subscription = _eth.subscribe('logs', options, function(error, result){
+        if (error) {
+          console.log('error:',error);
+        }
+    })
+    .on("data", function(log){
+      console.log('data:', log);
+      _eshelper.saveEvent(log);
+      appendResult(log);
+    })
+    .on("changed", function(log){
+      console.log('changed:', log);
+    });
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += eventSubscribe.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+</script>
+<%- include footer %>

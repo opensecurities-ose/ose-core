@@ -1,0 +1,59 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">ST Contract</li>
+      <li class="breadcrumb-item active">Get ST's granularity</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">getSTdecimals(securityToken)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Get ST's granularity
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    getSTdecimals(config.contract.ST).then();
+  }
+
+  async function getSTdecimals(securityToken) {
+    try {
+      var contract = {address: securityToken, abi: abiSecurityToken};
+      var st = new SecurityToken(web3, contract);
+      var res  = await st.decimals();
+      var result = "result:" + res + "\n";
+    } catch (e) {
+      var result = "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += getSTdecimals.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

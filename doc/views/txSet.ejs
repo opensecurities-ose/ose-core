@@ -1,0 +1,60 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic </li>
+      <li class="breadcrumb-item active">Update tx hash</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">txSet()</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Update tx hash
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+  function runCode() {
+    txSet();
+  }
+
+  function txSet() {
+    var _txhelper = new TxHelper(web3, 1);
+    // _txhelper.clear()
+    _txhelper.set('0x0b02574b75e1e5ac7646880c5fc7a352495dead91681c0e929645674d7b610e7', '{ok}');
+    _txhelper.set('0x22f5d506da0b8c033457034dfabfd1f88d3dbe8b165b58b97e72a5137eb05d96', '{fail}');
+    _txhelper.set('0xb20473c21e0a644cfb608671b7c3ad67c667498a330a81c145562f23ebf90133', '{fail}');
+    _txhelper.set('0xcc5dd8d4a49d1f1b550079f32b32b0eda6ebd0f7e2818113193c022bc542f4b2', '{ok}');
+    _txhelper.set('0xafb3dae27209a5404d53bcedc397916c74d63c9beddd92b69f366fac81c7660b', '{fail}');
+    _txhelper.set('0x8bf4a6c7868d6b45a30fada7ff9c018ef722304f4fb42cd1f987abc911c795d4', '{ok}');
+    //test
+    var list = _txhelper.list();
+    setResult(list);
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += txSet.toString() + "\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+</script>
+<%- include footer %>

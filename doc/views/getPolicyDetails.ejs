@@ -1,0 +1,60 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">GP contract</li>
+      <li class="breadcrumb-item active">Get investor's policy</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">getPolicyDetails(policyAddress, investor)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Get investor's policy
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    getPolicyDetails(config.contract.GP, web3.eth.coinbase).then();
+  }
+
+  async function getPolicyDetails(policyAddress, investor) {
+    try {
+      var contract = {address: policyAddress, abi: abiGP};
+      var gp = new GP(web3, contract);
+      var res  = await gp.getPolicyDetails(investor);
+      var result = "Account:" + investor +"\n";
+      result += "result:\n" + res + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += getPolicyDetails.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

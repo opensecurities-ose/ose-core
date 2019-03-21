@@ -1,0 +1,59 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">STG Contract</li>
+      <li class="breadcrumb-item active">Get STOFactory of STG</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">getSTGstoFactory()</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Get STOFactory of STG
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    getSTGstoFactory().then();
+  }
+
+  async function getSTGstoFactory() {
+    try {
+      var param = {address: config.contract.STGFactory, abi: abiSTGFactory};
+      var contract = new STGFactory(web3, param);
+      var res  = await contract.stoFactory();
+      var result = "result:" + res + "\n";
+    } catch (e) {
+      var result = "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += getSTGstoFactory.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

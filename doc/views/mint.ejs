@@ -1,0 +1,74 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">ST Contract</li>
+      <li class="breadcrumb-item active">Allocate shares</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">mint(securityToken, investor, amount)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Allocate shares
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    var securityToken = config.contract.ST;
+    var investor='0x866e43291293892bd0980adc4ec5166f33623d86';
+    var amount=web3.toWei(2,'ether');
+    console.log(securityToken, investor, amount);
+    mint(securityToken, investor, amount).then();
+  }
+
+  async function mint(securityToken, investor, amount) {
+    var res = getWeb3Account();
+    var account = res.data;
+    var result = "Account:" + account +"\n";
+    if(res.code!=0) {
+      result += res.msg+ '\n';
+      setResult(result);
+      return;
+    }
+
+    try {
+      var nonce = await getWeb3Nonce(account);
+      result += "nonce:" + nonce + "\n";
+      var param = {address: securityToken, abi: abiSecurityToken, sender: account, nonce: nonce};
+      var st = new SecurityToken(web3, param);
+      res  = await st.mint(investor, amount);
+      result += "tx:" + res + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += mint.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

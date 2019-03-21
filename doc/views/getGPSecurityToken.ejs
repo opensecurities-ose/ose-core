@@ -1,0 +1,60 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">GP Contract</li>
+      <li class="breadcrumb-item active">Get ST of GP</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">getGPSecurityToken(policyAddress)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Get ST of GP
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    getGPSecurityToken(config.contract.GP).then();
+  }
+
+  async function getGPSecurityToken(policyAddress) {
+    var result = "";
+    try {
+      var param = {address: policyAddress, abi: abiGP};
+      var contact = new GP(web3, param);
+      var res  = await contact.securityToken();
+      result += "result：" + res + "\n";
+    } catch (e) {
+      result += "error：" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += getGPSecurityToken.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

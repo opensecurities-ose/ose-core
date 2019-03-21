@@ -1,0 +1,64 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">ST Contract</li>
+      <li class="breadcrumb-item active">ST balance</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">balanceOf(securityToken, account)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Get ST balance
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    var securityToken = config.contract.ST;
+    var account = web3.eth.coinbase;
+    balanceOf(securityToken, account).then();
+  }
+
+  async function balanceOf(securityToken, account) {
+    var result = "Account:" + account +"\n";
+    try {
+      var param = {address: securityToken, abi: abiSecurityToken};
+      var st = new SecurityToken(web3, param);
+      // st.block = 4825027; // set blockNumber/blockHash get history balance
+      var res  = await st.balanceOf(account);
+      result += "balance:" + res + "\n";
+      result += "balance fromWei:" + web3.fromWei(res, 'ether') + "\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += balanceOf.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

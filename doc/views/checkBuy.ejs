@@ -1,0 +1,72 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">STO Contract</li>
+      <li class="breadcrumb-item active">STO investment check</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">checkBuy(sto, account)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              check STO investment available（ETh）
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    var sto = config.contract.STO;
+    var account = web3.eth.coinbase;
+    checkBuy(sto, account).then();
+  }
+
+  async function checkBuy(sto, account) {
+    var result = "Account:" + account +"\n";
+    var sto = new STO(web3, {address: sto, abi: abiSTO});
+    try {
+      var details  = await sto.getSTODetails();
+      result += "STO config:\n" + details + "\n";
+
+      var securityToken  = await sto.securityToken();
+      result += "ST Address:" + securityToken + "\n";
+      console.log('securityToken type:', typeof securityToken);
+
+      var st = new SecurityToken(web3, {address: securityToken, abi: abiSecurityToken});
+      var policyAddress  = await st.getPolicy('');
+      result += "GP Address:" + policyAddress + "\n";
+
+      var gp = new GP(web3, {address: policyAddress, abi: abiGP});
+      var policy  = await gp.getPolicyDetails(account);
+      result += "Policy info:" + policy +"\n";
+    } catch (e) {
+      result += "error:" + e + "\n";
+    }
+
+    setResult(result);
+
+  }
+
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += checkBuy.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

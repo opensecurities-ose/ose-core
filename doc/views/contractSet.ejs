@@ -1,0 +1,63 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Update user's contract</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">contractSet(options)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Update user's contract
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+  function runCode() {
+    var uid =1;
+    contractSet(uid);
+  }
+
+  function contractSet(uid) {
+    var _chelper = new ContractHelper(uid);
+    _chelper.clear()
+    for(var k in config.contract) {
+      if(k=='PolicyRegistry') {
+        console.log('skip');
+        continue;
+      }
+      _chelper.set(config.contract[k], k);
+    }
+
+    //test
+    var list = _chelper.list();
+    setResult(list);
+  }
+
+  // var Web3 = require('web3');
+  $(document).ready(function() {
+    var code = runCode.toString()+"\n\n";
+    code += contractSet.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+
+
+</script>
+<%- include footer %>

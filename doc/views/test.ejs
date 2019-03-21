@@ -1,0 +1,74 @@
+<%- include header %>
+    <script type="text/javascript">
+
+        function testold() {
+
+          const msgParams = [
+            {
+              type: 'string',
+              name: 'Message title',
+              value: 'Hi, Alice!'
+            }
+          ]
+
+          var from = web3.eth.accounts[0]
+          if (!from) return connect()
+
+          /*  web3.eth.signTypedData not yet implemented!!!
+           *  We're going to have to assemble the tx manually!
+           *  This is what it would probably look like, though:
+            web3.eth.signTypedData(msg, from) function (err, result) {
+              if (err) return console.error(err)
+              console.log('PERSONAL SIGNED:' + result)
+            })
+          */
+
+          console.log('CLICKED, SENDING PERSONAL SIGN REQ')
+          var params = [msgParams, from]
+          console.dir(params)
+          var method = 'eth_signTypedData'
+
+          web3.currentProvider.sendAsync({
+            method,
+            params,
+            from,
+          }, function (err, result) {
+            if (err) return console.dir(err)
+            if (result.error) {
+              alert(result.error.message)
+            }
+            if (result.error) return console.error(result)
+            console.log('PERSONAL SIGNED:' + JSON.stringify(result.result))
+
+          })
+
+
+        }
+
+        function test() {
+          var owner = web3.eth.coinbase;
+          var msgParams = [
+            {
+              type: 'string',
+              name: 'Message title',
+              value: 'Hi, Alice!'
+            }
+          ]
+
+          ethSignTypedData(owner,msgParams).then(res=>{
+            alert(res);
+          }).catch(err=>{
+            // console.error(err);
+          })
+
+
+
+        }
+
+    </script>
+
+<h1>Test</h1>
+<button type="button" onClick="test();">test</button>
+<div></div>
+<%- include footer %>
+

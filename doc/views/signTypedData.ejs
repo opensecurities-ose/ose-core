@@ -1,0 +1,95 @@
+<%- include header %>
+
+<div class="app-body">
+  <%- include menu %>
+  <main class="main">
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Basic</li>
+      <li class="breadcrumb-item active">Custom sig</li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="card">
+          <div class="card-header">signTypedData(_value)</div>
+          <div class="card-body">
+            <div class="bd-example">
+              Custom sig
+          </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <%- include code %>
+
+  </main>
+</div>
+<script type="text/javascript">
+
+  function runCode() {
+    var _value = [
+      {
+        type: 'string',
+        name: 'Verification Code From Server',
+        value: '1543907687356'
+      },
+      {
+        type: 'uint32',
+        name: 'A number',
+        value: '1337'
+      },
+      {
+        type: 'bool',
+        name: 'A bool',
+        value: 'true'
+      },
+      {
+        type: 'bytes',
+        name: 'A bytes32',
+        value: '0xc2b94aa850dcb8766a9a08a9db5d9629c50da5e2b273499bbd3b1009002c6f82'
+      }
+    ]
+    signTypedData(_value).then();
+  }
+
+  function verifySign(account, msg, signature) {
+    $.post("/api/verifySignTypedData",{account:account, msg:msg, signature:signature},function(res){
+      var result = "account：" + account +"\n";
+      result += "msg：" + msg + "\n";
+      result += "signature:" + signature + "\n";
+      result += "result.code:" + res.code + "\n";
+      result += "result.msg:" + res.msg + "\n";
+      result += "result.data:" + res.data + "\n";
+      setResult(result);
+    });
+  }
+
+  async function signTypedData(msg) {
+    var account = web3.eth.coinbase;
+    var result = "Account:" + account +"\n";
+    try {
+      var res = await ethSignTypedData(account, msg);
+      console.log('res:', res);
+      msg = JSON.stringify(msg);
+      verifySign(account, msg, res);
+    } catch (e) {
+      result += "error:" + e + "\n";
+      setResult(result);
+    }
+
+
+  }
+
+  $(document).ready(function() {
+    var code = runCode.toString() + "\n\n";
+    code += verifySign.toString() + "\n\n";
+    code += signTypedData.toString() + "\n\n";
+    code += "runCode();\n\n";
+    setCode(code);
+
+  });
+
+</script>
+<%- include footer %>

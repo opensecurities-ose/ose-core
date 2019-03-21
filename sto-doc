@@ -1,0 +1,102 @@
+#!/bin/bash
+basepath=$(cd `dirname $0`; pwd)
+apppath=$basepath/doc
+pidfile="$basepath/runtime/sto-doc.pid"
+logfile="$basepath/runtime/sto-doc.log"
+
+usage()
+{
+    echo "$0 <start|stop|restart|status>"
+    exit 255
+}
+
+
+check_pid()
+{
+    found=`ps -ef|grep www|grep doc|grep $basepath`
+    pid=`echo $found | awk '{print $2}'`
+    if [ -n "$found" ];then
+        echo "$pid" > $pidfile
+        echo "$pid"
+    else
+        echo ""
+    fi
+
+}
+
+start()
+{
+    _stat=`status`
+    result=$(echo $_stat | grep "stopped")
+    if [[ "$result" == "" ]]; then
+        echo "web server is running..."
+        return
+    fi
+    echo "start ..."
+    if [ `uname` = "Linux" ] ; then
+        if [ `whoami` = "root" ] ; then
+            source $apppath/data/env.sh
+            #echo "runuser -l $appuser -g $appgroup -c \"setsid $apppath/bin/www >> $logfile 2>&1 &\" "
+            runuser -l $appuser -g $appgroup -c "setsid $apppath/bin/www >> $logfile 2>&1 &"
+        else
+            #echo "nohup $apppath/bin/www >> $logfile 2>&1 &"
+            setsid $apppath/bin/www >> $logfile 2>&1 &
+        fi
+    else
+        #echo "nohup $apppath/bin/www > $logfile 2>&1 &"
+        nohup $apppath/bin/www >> $logfile 2>&1 &
+    fi
+
+    sleep 1
+    status
+}
+
+stop()
+{
+    echo "stop ..."
+    pid=`check_pid`
+    if [ -n "$pid" ]; then
+        kill -9 $pid
+    fi
+    echo "" > $pidfile
+    status
+}
+
+status()
+{
+    pid=`check_pid`
+    if [ -n "$pid" ]; then
+        echo "web server is running..."
+    else
+        echo "web server is stopped."
+    fi
+}
+
+restart()
+{
+    stop
+    sleep 1
+    start
+}
+
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    restart)
+        restart
+        ;;
+    help)
+        usage
+        ;;
+    *)
+        usage
+        ;;
+esac
