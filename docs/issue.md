@@ -1,5 +1,5 @@
 
->OpenSecurities consists of two parts, the issuance protocol and the trading protocol, which are responsible for the issuance and trading of security tokens. The issuance protocol is aimed at tokenizing traditional securities. Its defined security token standard supports equity and income security in traditional securities and is compatible with ERC1410 and ERC20 standards in Ethereum.
+?>OpenSecurities consists of two parts, the issuance protocol and the trading protocol, which are responsible for the issuance and trading of security tokens. The issuance protocol is aimed at tokenizing traditional securities. Its defined security token standard supports equity and income security in traditional securities and is compatible with ERC1410 and ERC20 standards in Ethereum.
 
 ### Process of Issuance
 

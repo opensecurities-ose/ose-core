@@ -1,11 +1,12 @@
 - [Introduction](README.md)
     
-- Getting Started
 
 - Protocols
     - [Issuance Protocol](issue.md)
     - [Trading Protocol](trade.md)
     
-- Services
+- [Getting Started](tutorial.md)
 
-- API
+- [Services](services.md)
+
+- [API](api.md)

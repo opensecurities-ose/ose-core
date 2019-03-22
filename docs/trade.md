@@ -1,5 +1,5 @@
 
->In order to improve the ecology of the entire security token, we proposed a decentralized securities trading protocol for the circulation of security tokens to realize the security, transparency and decentralization of securities circulation.
+?>In order to improve the ecology of the entire security token, we proposed a decentralized securities trading protocol for the circulation of security tokens to realize the security, transparency and decentralization of securities circulation.
 
 
 ### Process of Trading
@@ -48,7 +48,7 @@ The core of the trading protocol is to match the make and taker's orders and set
 * The order’s price matches (buy price>=sell price, then matching is successful); 
 * The trade amount submitted by the exchange relayer off-chain is less than the smaller of the unfilled orders; 
 
->After the above verifications, the order trade price and the trade quantity are calculated. Finally, the settlement is made to update the balance between the buyer and the seller.
+!>After the above verifications, the order trade price and the trade quantity are calculated. Finally, the settlement is made to update the balance between the buyer and the seller.
 
 ### Withdraw
 
