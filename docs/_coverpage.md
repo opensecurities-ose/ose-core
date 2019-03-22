@@ -6,6 +6,6 @@
 
 
 [GitHub](https://github.com/opensecurities-ose/ose-core.git)
-[Getting Started](#summary)
+[Getting Started](#README)
 
 <!-- ![color](#f0f0f0) -->

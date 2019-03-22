@@ -1,6 +1,4 @@
 - [Introduction](README.md)
-
-    - [summary](README.md)
     
 - Getting Started
 
