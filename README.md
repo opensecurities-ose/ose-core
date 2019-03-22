@@ -22,3 +22,8 @@
   4. Browsing document
     input http://localhost:3001
   5. Import wallet to metamask
+
+
+# About docs
+
+You can read the docs of this project in this [website](https://opensecurities-ose.github.io/ose-core)
