@@ -1,6 +1,6 @@
 ![logo](img/icon.jpg)
 
-# OpenSecurities Docs <small>0.1.1</small>
+# OpenSecurities Docs <small>0.1.0</small>
 
 > A Standard Security Token Protocol
 
