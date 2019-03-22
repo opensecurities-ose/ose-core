@@ -4,7 +4,7 @@
 
 > A Standard Security Token Protocol
 
-This doc is in built and not ready yet,please wait...
+This doc is not ready yet. Be patient...
 
 [GitHub](https://github.com/opensecurities-ose/ose-core.git)
 [Getting Started](README)
