@@ -2,7 +2,7 @@
 
 > The standard security token protocol based on Ethereum
 
-## What it is
+#### What it is
 
 OpenSecurities help security token developers build financial dApps more easily.
 The developer may wanna build dApps like:
@@ -13,7 +13,7 @@ The developer may wanna build dApps like:
 
 The `OSP` protocol contains two sub protocols:Issuance protocol and Exchange protocol.
 
-## Features
+#### Features
 
 - Security token standard compatible with ERC-20 and ERC-1410;
 - Support tranches;
@@ -26,7 +26,7 @@ The `OSP` protocol contains two sub protocols:Issuance protocol and Exchange pro
 - Exchange security token on chain;
 - Whitelist in exchange contract;
 
-## What we do
+#### What we do
 - Define and implement security token standard
 - Build security token infrastructure and services
 - Provide SDK and API services or guide
