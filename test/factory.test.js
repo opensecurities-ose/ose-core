@@ -8,7 +8,7 @@ const Web3Utils = require('../utils/Web3Utils');
 const Log = require('../utils/LogConsole');
 var { catchRevert } = require("./common/exceptions");
 const BigNumber = require("bignumber.js");
-const roles = require('../doc/public/vendors/my-public/js/role');
+const roles = require('../play/public/vendors/my-public/js/role');
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545")); // Hardcoded development port
 
 contract("Factory", accounts => {

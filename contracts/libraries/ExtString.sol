@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.24;
 
 library ExtString {
     function strConcat(string _a, string _b) internal pure returns (string){

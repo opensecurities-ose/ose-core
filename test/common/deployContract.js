@@ -9,7 +9,7 @@ const STGFactory = artifacts.require('./STGFactory.sol')
 const ERC20Token = artifacts.require('./dummies/ERC20Token.sol')
 const DExchange = artifacts.require('./dex/ExchangeCore.sol')
 
-const roles = require('../../doc/public/vendors/my-public/js/role')
+const roles = require('../../play/public/vendors/my-public/js/role')
 
 // Contract Instance Declaration
 let iPolicyRegistry;

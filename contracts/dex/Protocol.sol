@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.24;
 
 import "../interfaces/IERC20.sol";
 import "../modules/Ownable.sol";

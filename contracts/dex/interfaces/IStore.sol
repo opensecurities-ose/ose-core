@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.24;
 
 ///@title the Store interface that recode the assets of erc20 or erc721
 interface IStore {

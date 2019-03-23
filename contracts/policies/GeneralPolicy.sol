@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.24;
 
 import "../interfaces/IPolicyRegistryCheck.sol";
 import "../interfaces/ISecurityToken.sol";
